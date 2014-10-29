@@ -30,8 +30,18 @@ app.controller('PageCtrl', function (/* $scope, $location, $http */) {
 });
 
 // Controls video list page
-app.controller('VideoListCtrl', function ($scope, $location, $http)  { 
+app.controller('VideoListCtrl', ['$scope', 'GetUploadedVideosFactory', function ($scope, GetUploadedVideosFactory)  { 
 	console.log("VideoList controller"); 
+	
+	// Get the video list from the Colab Server
+	GetUploadedVideosFactory.getVideoList().then(function(data) {
+		var _d = data.data;
+	    if (typeof _d == 'object') {
+	    	//http://stackoverflow.com/a/7220510/1015046//
+	        _d = JSON.stringify(_d, undefined, 2);
+	    }
+	    	console.dir(_d);
+	    });
 	
     $scope.videoList = [
         {"id": 0, "name": "Video 0"},
@@ -45,4 +55,24 @@ app.controller('VideoListCtrl', function ($scope, $location, $http)  {
         {"id": 8, "name": "Video 8"}
     ];
 
-});
+}]);
+
+/** Factories **/
+
+/* factory to get the video list from the server */
+(function() {
+  'use strict';
+ 
+  app.factory('GetUploadedVideosFactory', ['$http',
+    function($http) {
+      var _factory = {};
+ 
+      _factory.getVideoList = function() {
+        return $http.get('/video_list');
+      };
+ 
+      return _factory;
+    }
+  ]);
+ 
+}());
