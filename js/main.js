@@ -28,3 +28,21 @@ app.controller('PageCtrl', function (/* $scope, $location, $http */) {
 		 interval: 5000 }); 
 
 });
+
+// Controls video list page
+app.controller('VideoListCtrl', function ($scope, $location, $http)  { 
+	console.log("VideoList controller"); 
+	
+    $scope.videoList = [
+        {"id": 0, "name": "Video 0"},
+        {"id": 1, "name": "Video 1"},
+        {"id": 2, "name": "Video 2"},
+        {"id": 3, "name": "Video 3"},
+        {"id": 4, "name": "Video 4"},
+        {"id": 5, "name": "Video 5"},
+        {"id": 6, "name": "Video 6"},
+        {"id": 7, "name": "Video 7"},
+        {"id": 8, "name": "Video 8"}
+    ];
+
+});

@@ -1,11 +1,14 @@
 <div class="container">
 	<div class="row"> 
 		<div class="col-lg-12"> 
-			<h1 class="page-header">Video List</h1> 
+			<h1 class="page-header">Uploaded Videos</h1> 
 		</div> 
 	</div> 
-	<h2>Uploaded Videos</h2>
-	<p>
-		List of videos.
-	</p>
+	
+	<!-- div to contain the list of videos -->
+	<div ng-controller="VideoListCtrl">
+    	<div ng-repeat="video in videoList">
+            <a href="{{bookmark.url}}" target="_blank">{{video.name}}</a>
+		</div>
+	</div>
  </div>
