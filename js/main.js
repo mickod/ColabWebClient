@@ -1,5 +1,5 @@
 /** Main AngularJS Web Application */ 
-var app = angular.module('colabVideoServerWebApp', [ 'ngRoute' ]); 
+var app = angular.module('colabVideoServerWebApp', [ 'ngRoute', 'colabConfig']); 
 
 /** Configure the Routes */ 
 app.config(['$routeProvider', function ($routeProvider) { 
@@ -20,9 +20,9 @@ app.config(['$routeProvider', function ($routeProvider) {
 /** Controllers */
 
 // Controls Pages
-app.controller('PageCtrl', function (/* $scope, $location, $http */) { 
+app.controller('PageCtrl', function (/*$scope, colabConfig*/) { 
 	console.log("Page Controller reporting for duty."); 
-	
+
 	// Activates the Carousel 
 	$('.carousel').carousel({
 		 interval: 5000 }); 
@@ -33,27 +33,25 @@ app.controller('PageCtrl', function (/* $scope, $location, $http */) {
 app.controller('VideoListCtrl', ['$scope', 'GetUploadedVideosFactory', function ($scope, GetUploadedVideosFactory)  { 
 	console.log("VideoList controller"); 
 	
+	$scope.videoList = [];
+	
 	// Get the video list from the Colab Server
 	GetUploadedVideosFactory.getVideoList().then(function(data) {
-		var _d = data.data;
-	    if (typeof _d == 'object') {
-	    	//http://stackoverflow.com/a/7220510/1015046//
-	        _d = JSON.stringify(_d, undefined, 2);
-	    }
-	    	console.dir(_d);
-	    });
+
+		// Should really do some type checking etc here on the returned value
+	   	console.dir(data.data);
+		
+		$scope.videoList = data.data;
+	});
+
+}]);
+
+// Controls video test play page
+app.controller('VideoPlayTestCtrl', ['$scope', 'colabConfig', function ($scope, colabConfig)  { 
+	console.log("VideoList controller"); 
 	
-    $scope.videoList = [
-        {"id": 0, "name": "Video 0"},
-        {"id": 1, "name": "Video 1"},
-        {"id": 2, "name": "Video 2"},
-        {"id": 3, "name": "Video 3"},
-        {"id": 4, "name": "Video 4"},
-        {"id": 5, "name": "Video 5"},
-        {"id": 6, "name": "Video 6"},
-        {"id": 7, "name": "Video 7"},
-        {"id": 8, "name": "Video 8"}
-    ];
+	//Set the base URL for the server
+	$scope.collabServerBaseURL = colabConfig.colabServerBaseURL;
 
 }]);
 
@@ -63,12 +61,12 @@ app.controller('VideoListCtrl', ['$scope', 'GetUploadedVideosFactory', function 
 (function() {
   'use strict';
  
-  app.factory('GetUploadedVideosFactory', ['$http',
-    function($http) {
+  app.factory('GetUploadedVideosFactory', ['$http', 'colabConfig',
+    function($http, colabConfig) {
       var _factory = {};
  
       _factory.getVideoList = function() {
-        return $http.get('/video_list');
+        return $http.get(colabConfig.colabServerBaseURL + '/video_list');
       };
  
       return _factory;
@@ -76,3 +74,13 @@ app.controller('VideoListCtrl', ['$scope', 'GetUploadedVideosFactory', function 
   ]);
  
 }());
+
+
+/** Modules **/
+
+/* module for general app config that can be injected as a dependency where needed */
+angular.module('colabConfig', [])
+  .value('colabConfig', {
+	  // Set the base URL for the colab server
+	  colabServerBaseURL: 'http://localhost:3000' 
+});

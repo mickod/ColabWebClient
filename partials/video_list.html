@@ -8,7 +8,8 @@
 	<!-- div to contain the list of videos -->
 	<div ng-controller="VideoListCtrl">
     	<div ng-repeat="video in videoList">
-            <a href="{{bookmark.url}}" target="_blank">{{video.name}}</a>
+			{{video.index}}
+            <a href="{{bookmark.url}}" target="_blank">{{video.file_name}}</a>
 		</div>
 	</div>
  </div>

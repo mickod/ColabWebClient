@@ -4,8 +4,8 @@
 			<h1 class="page-header">Test Video</h1> 
 		</div> 
 	</div> 
-	<div>
-		<video autoplay controls="true" src="http://ec2-54-170-153-85.eu-west-1.compute.amazonaws.com:3000/videos/BigBuckBunny_320x180.mp4"></video>
+	<div ng-controller="VideoPlayTestCtrl">
+		<video autoplay controls="true" vg-src="collabServerBaseURL"></video>
 	</div>
 	<div>
 		<p>This page contains a test video to ensure the browser can support the video format used by Colab Server. When this page loads 
