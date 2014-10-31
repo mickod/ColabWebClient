@@ -1,7 +1,9 @@
 /** Main AngularJS Web Application */ 
 var app = angular.module('colabVideoServerWebApp', [ 'ngRoute', 'colabConfig']); 
 
-/** Configure the Routes */ 
+/** Configuration **/
+
+// Configure the Routes  
 app.config(['$routeProvider', function ($routeProvider) { 
 	$routeProvider 
 		// Home 
@@ -15,6 +17,15 @@ app.config(['$routeProvider', function ($routeProvider) {
 		// else 404 
 		.otherwise("/404", {templateUrl: "partials/404.html", controller: "PageCtrl"}); 
 }]);
+
+// configure trusted source URL's
+app.config(['$sceDelegateProvider', function($sceDelegateProvider) {
+ $sceDelegateProvider.resourceUrlWhitelist([
+   // Allow same origin resource loads.
+   'self',
+   // Allow loading from all domains for now - not secure in production env.
+   '**']);
+ }]);
 
 
 /** Controllers */
@@ -52,6 +63,7 @@ app.controller('VideoPlayTestCtrl', ['$scope', 'colabConfig', function ($scope, 
 	
 	//Set the base URL for the server
 	$scope.collabServerBaseURL = colabConfig.colabServerBaseURL;
+	$scope.collabServerTestVideoURL = colabConfig.colabServerBaseURL + "/videos/BigBuckBunny_320x180.mp4";
 
 }]);
 
