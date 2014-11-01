@@ -41,7 +41,7 @@ app.controller('PageCtrl', function (/*$scope, colabConfig*/) {
 });
 
 // Controls video list page
-app.controller('VideoListCtrl', ['$scope', 'GetUploadedVideosFactory', function ($scope, GetUploadedVideosFactory)  { 
+app.controller('VideoListCtrl', ['$scope', 'GetUploadedVideosFactory', 'colabConfig', function ($scope, GetUploadedVideosFactory, colabConfig)  { 
 	console.log("VideoList controller"); 
 	
 	$scope.videoList = [];
@@ -54,10 +54,24 @@ app.controller('VideoListCtrl', ['$scope', 'GetUploadedVideosFactory', function 
 		
 		$scope.videoList = data.data;
 	});
+	
+	// Set the video player window to blank by default
+	$scope.playerWindowURL = './templates/empty_player_window.html';
+	
+	// function called when user clicks on a particular video
+	function playVideo(videoFileName) {
+		console.log("playVideo button clicked"); 
+		// set the video player window to the player window instead of blank
+		$scope.playerWindowURL = './templates/video_player_window.html';
+		$scope.collabServerPlayVideoURL = colabConfig.colabServerBaseURL + "/videos/" + videoFileName;
+	};
+	
+	//Tell the scope about the functions in this controller
+	$scope.playVideo = playVideo;
 
 }]);
 
-// Controls video test play page
+// Controls video test play div
 app.controller('VideoPlayTestCtrl', ['$scope', 'colabConfig', function ($scope, colabConfig)  { 
 	console.log("VideoList controller"); 
 	
