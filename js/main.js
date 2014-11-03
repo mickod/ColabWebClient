@@ -1,5 +1,5 @@
 /** Main AngularJS Web Application */ 
-var app = angular.module('colabVideoServerWebApp', [ 'ngRoute', 'colabConfig']); 
+var app = angular.module('colabVideoServerWebApp', [ 'ngRoute', 'colabConfig', 'angularFileUpload']); 
 
 /** Configuration **/
 
@@ -13,6 +13,7 @@ app.config(['$routeProvider', function ($routeProvider) {
 		.when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
 		.when("/video_list", {templateUrl: "partials/video_list.html", controller: "PageCtrl"})
 		.when("/play_test_video", {templateUrl: "partials/play_test_video.html", controller: "PageCtrl"})
+		.when("/web_video_upload", {templateUrl: "partials/web_video_upload.html", controller: "WebUploadCtrl"})
 		
 		// else 404 
 		.otherwise("/404", {templateUrl: "partials/404.html", controller: "PageCtrl"}); 
@@ -79,6 +80,32 @@ app.controller('VideoPlayTestCtrl', ['$scope', 'colabConfig', function ($scope, 
 	$scope.collabServerBaseURL = colabConfig.colabServerBaseURL;
 	$scope.collabServerTestVideoURL = colabConfig.colabServerBaseURL + "/videos/BigBuckBunny_320x180.mp4";
 
+}]);
+
+// Controls video upload from web (i.e. not from a mobile app) - based on: https://github.com/danialfarid/angular-file-upload
+app.controller('WebUploadCtrl',[ '$scope', '$upload','colabConfig', function($scope, $upload, colabConfig) {
+	console.log("WebUploadCtrl controller"); 
+	$scope.onFileSelect = function($files) {
+		//$files: an array of files selected, each file has name, size, and type.
+		for (var i = 0; i < $files.length; i++) {
+		  var file = $files[i];
+		  $scope.upload = $upload.upload({
+		    url: colabConfig.colabServerBaseURL + "/web_video_upload",
+		    method: 'POST',
+		    //headers: {'header-key': 'header-value'},
+		    //withCredentials: true,
+		    data: {myObj: $scope.myModelObj},
+		    file: file,
+		  }).progress(function(evt) {
+		    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+		  }).success(function(data, status, headers, config) {
+		    // file is uploaded successfully
+		    console.log(data);
+		  }).error(function() {
+		    	console.log("Error on web video upload");
+		  });
+	  	}
+	}
 }]);
 
 /** Factories **/

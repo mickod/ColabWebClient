@@ -13,9 +13,6 @@
 	    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 	    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-	    <!-- Our Website CSS Styles -->
-	    <link rel="stylesheet" href="css/main.css">
-
     </head>
     <body ng-app="colabVideoServerWebApp">
         <!--[if lt IE 8]>
@@ -30,14 +27,21 @@
 		<div ng-include='"templates/footer.html"'></div>
 
 		<!-- Vendor: Javascripts -->
+		<!-- 	includes: jQuery, bootstarp and angular-file-upload (to support file upload see link below) -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script src="js/third_party_libraries/angular-file-upload-shim.min.js"></script> 
+		
 
 		<!-- Vendor: Angular -->
 		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-route.min.js"></script>
+		
+		<!-- script needed for file upload - must be added after angular scrips-->
+		<!-- 	see: https://github.com/danialfarid/angular-file-upload -->
+		<script src="js/third_party_libraries/angular-file-upload.min.js"></script> 
 
-		<!-- Our Website Javascripts -->
+		<!-- This app Website Javascripts -->
 		<script src="js/main.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
