@@ -82,9 +82,10 @@ app.controller('VideoPlayTestCtrl', ['$scope', 'colabConfig', function ($scope, 
 
 }]);
 
-// Controls video upload from web (i.e. not from a mobile app) - based on: https://github.com/danialfarid/angular-file-upload
+// Controls video upload from web (i.e. not from a mobile app) - uses module and apraoch at: https://github.com/danialfarid/angular-file-upload
 app.controller('WebUploadCtrl',[ '$scope', '$upload','colabConfig', function($scope, $upload, colabConfig) {
-	console.log("WebUploadCtrl controller"); 
+	console.log("WebUploadCtrl controller");
+	$scope.progressPerCent = 0;
 	$scope.onFileSelect = function($files) {
 		//$files: an array of files selected, each file has name, size, and type.
 		for (var i = 0; i < $files.length; i++) {
@@ -97,7 +98,10 @@ app.controller('WebUploadCtrl',[ '$scope', '$upload','colabConfig', function($sc
 		    data: {myObj: $scope.myModelObj},
 		    file: file,
 		  }).progress(function(evt) {
-		    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+			  console.log("progress: " + (evt.position/evt.totalSize)*100);
+			  //$scope.$apply(function() {
+			      $scope.progressPerCent = (evt.position/evt.totalSize)*100;
+			  //});
 		  }).success(function(data, status, headers, config) {
 		    // file is uploaded successfully
 		    console.log(data);

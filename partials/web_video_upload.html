@@ -8,8 +8,13 @@
 		This is to allow upload from the browser for test purposes - this is not intended to be used on a mobile device.
 	</p>
 	<div ng-controller="WebUploadCtrl">
-	  <input type="file" ng-file-select="onFileSelect($files)">
-	  <div class="button" ng-file-select="onFileSelect($files)" data-multiple="true"></div>
-	  <button ng-click="upload.abort()">Cancel Upload</button>
+		<div>
+		  <input type="file" ng-file-select="onFileSelect($files)">
+		  <div class="button" ng-file-select="onFileSelect($files)" data-multiple="true"></div>
+		  <button ng-click="upload.abort()">Cancel Upload</button>
+		</div>
+		<div>
+			<p>Progress: {{progressPerCent}}<p>
+		</div>
 	</div>
  </div>
