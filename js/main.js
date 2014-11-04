@@ -42,7 +42,7 @@ app.controller('PageCtrl', function (/*$scope, colabConfig*/) {
 });
 
 // Controls video list page
-app.controller('VideoListCtrl', ['$scope', 'GetUploadedVideosFactory', 'colabConfig', function ($scope, GetUploadedVideosFactory, colabConfig)  { 
+app.controller('VideoListCtrl', ['$scope', '$http', 'GetUploadedVideosFactory', 'colabConfig', function ($scope, $http, GetUploadedVideosFactory, colabConfig)  { 
 	console.log("VideoList controller"); 
 	
 	$scope.videoList = [];
@@ -59,16 +59,27 @@ app.controller('VideoListCtrl', ['$scope', 'GetUploadedVideosFactory', 'colabCon
 	// Set the video player window to blank by default
 	$scope.playerWindowURL = './templates/empty_player_window.html';
 	
-	// function called when user clicks on a particular video
-	function playVideo(videoFileName) {
+	// function called when user clicks the play button for a particular video
+	function playVideo(video) {
 		console.log("playVideo button clicked"); 
 		// set the video player window to the player window instead of blank
 		$scope.playerWindowURL = './templates/video_player_window.html';
-		$scope.collabServerPlayVideoURL = colabConfig.colabServerBaseURL + "/videos/" + videoFileName;
+		$scope.collabServerPlayVideoURL = colabConfig.colabServerBaseURL + "/videos/" + video.file_name;
+	};
+	
+	// function called when user clicks the delet button for a particular video
+	function deleteVideo(video) {
+		console.log("deleteVideo button clicked");
+		// Send message to the server to delete the video
+		$http.delete(colabConfig.colabServerBaseURL + "/videos/" + video.file_name);
+		
+		// Remove the video from the list being displayed
+		$scope.videoList.splice( $scope.videoList.indexOf(video), 1 );
 	};
 	
 	//Tell the scope about the functions in this controller
 	$scope.playVideo = playVideo;
+	$scope.deleteVideo = deleteVideo;
 
 }]);
 

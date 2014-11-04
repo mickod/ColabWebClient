@@ -9,10 +9,15 @@
 	<div class="row" ng-controller="VideoListCtrl">
 		<!-- list of video -->
     	<div class="col-md-6">
-			<div ng-repeat="video in videoList">
-				<button ng-click="playVideo(video.file_name)"></button>
-				{{video.file_name}}
-			</div>
+			<ul>
+				<div ng-repeat="video in videoList">
+					<li class="list-inline" style="height:30px;" >
+						<button type="button" class="btn btn-success btn-xs" ng-click="playVideo(video)">Play</button>
+						<button type="button" class="btn btn-default btn-xs" ng-click="deleteVideo(video)">Delete</button>
+						{{video.file_name}}
+					</li>
+				</div>
+			</ul>
 		</div>
 		<!-- video player window -->
 		<div class="col-md-6" ng-include="playerWindowURL"></div>
