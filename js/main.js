@@ -118,7 +118,7 @@ app.controller('WebUploadCtrl',[ '$scope', '$upload','colabConfig', function($sc
 		    // file is uploaded successfully
 		    console.log(data);
 		  }).error(function() {
-		    	console.log("Error on web video upload");
+		    console.log("Error on web video upload");
 		  });
 	  	}
 	}
