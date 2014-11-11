@@ -64,14 +64,14 @@ app.controller('VideoListCtrl', ['$scope', '$http', 'GetUploadedVideosFactory', 
 		console.log("playVideo button clicked"); 
 		// set the video player window to the player window instead of blank
 		$scope.playerWindowURL = './templates/video_player_window.html';
-		$scope.collabServerPlayVideoURL = colabConfig.colabServerBaseURL + "/videos/" + video.file_name;
+		$scope.collabServerPlayVideoURL = colabConfig.colabServerBaseURL + "/uploaded_videos/" + video.file_name;
 	};
 	
 	// function called when user clicks the delet button for a particular video
 	function deleteVideo(video) {
 		console.log("deleteVideo button clicked");
 		// Send message to the server to delete the video
-		$http.delete(colabConfig.colabServerBaseURL + "/videos/" + video.file_name);
+		$http.delete(colabConfig.colabServerBaseURL + "/uploaded_videos/" + video.file_name);
 		
 		// Remove the video from the list being displayed
 		$scope.videoList.splice( $scope.videoList.indexOf(video), 1 );
@@ -98,6 +98,7 @@ app.controller('WebUploadCtrl',[ '$scope', '$upload','colabConfig', function($sc
 	console.log("WebUploadCtrl controller");
 	$scope.progressPerCent = 0;
 	$scope.onFileSelect = function($files) {
+		console.log("file selected for upload...");
 		//$files: an array of files selected, each file has name, size, and type.
 		for (var i = 0; i < $files.length; i++) {
 		  var file = $files[i];
